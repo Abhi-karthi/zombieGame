@@ -9,15 +9,15 @@ class Animation:
         self.animation_number = 0
 
     def get_image(self, face: str):
-        if face == "left":
-            return self.left_images[self.animation_number]
-        elif face == "right":
-            return self.right_images[self.animation_number]
-
         if self.animation_number == self.limit:
             self.animation_number = 0
         else:
             self.animation_number += 1
+
+        if face == "left":
+            return self.left_images[self.animation_number - 1]
+        elif face == "right":
+            return self.right_images[self.animation_number - 1]
 
         raise IOError("Face must equal 'right' or 'left'")
 
