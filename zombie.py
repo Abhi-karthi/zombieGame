@@ -11,12 +11,15 @@ class Zombie:
             self.x = -20
         else:
             self.x = 1940
-        self.y = 0
+        self.y = 75
         self.reset_time = time.time()
         self.reset_cooldown = 3
-        self.attacking_animation = zombie_attack_animation
-        self.walking_animation = zombie_walking_animation
-        self.dead_animation = zombie_dead_animation
+        self.state = "walking"
+        self.damage = 0
+        self.dead_timer = 0
+        self.dead = False
+        self.health = self.level * 30
+        self.face = "left"
         # size of screen: 1920x1050
 
     def get_reset_time(self) -> bool:
@@ -28,10 +31,29 @@ class Zombie:
 
     def periodic(self, player_coordinates: tuple[int, int]) -> None:
         reset = self.get_reset_time()
+        if self.health <= 0 and self.dead_timer != 0:
+            self.state = "dead"
+            self.dead_timer = time.time()
+        else:
+            if self.x > player_coordinates[0] + 20:  # if player is more than 20 pixels right, increases x
+                self.x += 3
+                self.damage = 0
+                self.state = "walking"
+                self.face = "right"
+            elif self.x < player_coordinates[0] - 20:
+                self.x -= 3
+                self.damage = 0
+                self.state = "walking"
+                self.face = "left"
+            elif player_coordinates[1] < 75 and reset:  # if player is close to the ground, zombie will hit
+                self.damage = self.level * 2
+                self.state = "attacking"
+            elif player_coordinates[1] < 75:
+                self.damage = 0
+                self.state = "attacking"
+            else:
+                self.state = "idle"
+                self.damage = 0
 
-        if self.x > player_coordinates[0] + 20: # if player is more than 20 pixels right, increases x
-            self.x += 3
-        elif self.x < player_coordinates[0] - 20:
-            self.x -= 3
-        elif player_coordinates[1] < 75 and reset: # if player is close to the ground, zombie will hit
-
+        if time.time() - self.dead_timer > 1:  # waits for one second after death to delete zombie
+            self.dead = True

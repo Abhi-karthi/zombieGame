@@ -46,6 +46,9 @@ zombie_dead_left = load_images("Dead", 12, (629, 526))[1]
 zombie_walking_right = load_images("Walk", 10, (430, 519))[0]
 zombie_walking_left = load_images("Walk", 10, (430, 519))[1]
 
+zombie_idle_right = load_images("Idle", 15, (430, 519))[0]
+zombie_idle_left = load_images("Idle", 15, (430, 519))[1]
+
 player_attack_right = load_images("Attack__", 9, (536, 495), True)[0]
 player_attack_left = load_images("Attack__", 9, (536, 495), True)[1]
 
@@ -67,6 +70,7 @@ player_jump_attack_left = load_images("Jump_Attack__", 9, (504, 522), True)[1]
 zombie_attack_animation: Animation = Animation(zombie_attack_right, zombie_attack_left)
 zombie_dead_animation: Animation = Animation(zombie_dead_right, zombie_dead_left)
 zombie_walking_animation: Animation = Animation(zombie_walking_right, zombie_walking_left)
+zombie_idle_animation: Animation = Animation(zombie_idle_right, zombie_idle_left)
 player_attack_animation: Animation = Animation(player_dead_right, player_dead_left)
 player_dead_animation: Animation = Animation(player_dead_right, player_dead_left)
 player_run_animation: Animation = Animation(player_run_right, player_run_left)
